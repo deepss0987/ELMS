@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36202.13 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ELMS", "ELMS.csproj", "{4A138B39-9B55-4DB4-8E5B-AA1D123787B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A138B39-9B55-4DB4-8E5B-AA1D123787B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A138B39-9B55-4DB4-8E5B-AA1D123787B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A138B39-9B55-4DB4-8E5B-AA1D123787B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A138B39-9B55-4DB4-8E5B-AA1D123787B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A86515B-072C-4B4C-B392-7BCB1A0F840B}
+	EndGlobalSection
+EndGlobal
