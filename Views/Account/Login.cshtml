@@ -1,0 +1,154 @@
+﻿@using ELMS.Data.Entities
+@model LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+<!Doctype HTML>
+<html>
+<head>
+    <title>SignIn</title>
+</head>
+<body class="text-center">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-left">
+                <img src="\images\images.jpg" alt="Login Photo" class="login-image" />
+            </div>
+            <div class="login-right">
+                <h2 class="login-title">Log In</h2>
+                <form method="post">
+                    @* @if (ViewBag.ErrorMessage != null)
+                    {
+                        <p class="alert-danger">@ViewBag.ErrorMessage</p>
+                    } *@
+                    <div class="form-column">
+                    <div class="input-group" style="position:relative;">
+                        @* @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" }) *@
+                        <input asp-for="Email" type="text" placeholder="Email" />
+                    </div>
+                        <span asp-validation-for="Email" class="validation-message"></span>
+                    </div>
+                    
+                    <div class="form-column">
+                    <div class="input-group" style="position:relative;">
+                        <input asp-for="Password" type="password" placeholder="Password" />
+                    </div>
+                        <span asp-validation-for="Password" class="validation-message"></span>
+                    </div>
+
+                    <button type="submit" class="login-btn">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <style>
+        body {
+            background: #f5f6fa;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+
+        .login-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 30px rgba(0,0,0,0.06);
+            display: flex;
+            width: 800px;
+            min-height: 400px;
+            overflow: hidden;
+        }
+
+        .login-left {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 40px 20px 20px 20px;
+            background: #fff;
+        }
+
+        .login-image {
+            width: 220px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+
+        .login-right {
+            flex: 2;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 22px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            background: #fafbfc;
+            padding: 0 12px;
+        }
+
+        input[type="text"], input[type="password"] {
+            border: none;
+            background: transparent;
+            padding: 12px 0;
+            width: 100%;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .login-btn {
+            background: #5396f7;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 0;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #1976d2;
+        }
+
+        .form-column {
+            display: flex;
+            flex-direction :column;
+            align-items: flex-start;
+            margin-bottom: 0px; 
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        .validation-message {
+            color: #d32f2f;
+            font-size: 15px;
+            margin-left: 2px; 
+            white-space: nowrap;
+            background: #fff;
+            display:block;
+        }
+    </style>
+</body>
+</html>

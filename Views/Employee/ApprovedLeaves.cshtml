@@ -1,0 +1,226 @@
+﻿@{
+    var IsManageruser = User.IsInRole("2");
+}
+
+@model List<LeaveRequestViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Leave Request History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">ELMS</a>
+            <div class="ms-auto">
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                    <button class="btn btn-primary" type="button">@User.Identity.Name</button>
+                }
+            </div>
+        </div>
+    </nav>
+   
+        <div class="header text-center">
+            <div class="heading-container align-text-top">
+                <h3>Leave Request History</h3>
+            </div>
+        </div>
+        @if (IsManageruser)
+        {
+        <div class="header text-center">
+            <div class="tabs d-flex justify-content-center mb-4">
+                <a href="\Employee\LeaveApproval" class="btn btn-outline-secondary">Pending</a>
+                <a href="\Employee\ApprovedLeaves" class="btn btn-primary">Approved</a>
+            </div>
+        </div>
+    }
+    else{
+    <div class="main-card">
+        <div class="table-scroll">
+            @if (Model != null && Model.Any())
+            {
+                <table class="Leaverequest-table table align-middle">
+                    <thead>
+                        <tr>
+                            <th>Employee</th>
+                            <th>Leave Type</th>
+                            <th>Duration</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Reason</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.EmployeeName</td>
+                                <td>@item.LeaveTypeName</td>
+                                <td>@item.NumberofDays</td>
+                                <td>@item.StartDate.ToShortDateString()</td>
+                                <td>@item.EndDate.ToShortDateString()</td>
+                                <td>@item.Reason</td>
+                                <td>
+                                    @if (item.StatusName == "Approved")
+                                    {
+                                        <span class="badge bg-success">Approved</span>
+                                    }
+                                    else if (item.StatusName == "Rejected")
+                                    {
+                                        <span class="badge bg-danger">Rejected</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@item.StatusName</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <span>No processed leave requests found.</span>
+                </div>
+            }
+        </div>
+    </div>
+    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<style>
+    body {
+        background: #f8f9fa;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .navbar {
+        background: #020024;
+        background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        padding: 7px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-brand {
+        color: floralwhite;
+        text-decoration: none;
+    }
+
+    .navbar .btn {
+        font-size: 15px;
+        border-radius: 8px;
+        margin-left: 1rem;
+    }
+
+    .header {
+        margin-top: 36px;
+        margin-bottom: 12px;
+    }
+
+    .heading-container h3 {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 40px;
+        font-weight: bold;
+        color: #2c3e50;
+        letter-spacing: 1.2px;
+        text-align: left;
+        margin: 20px 20px 40px 60px;
+        border-bottom: 1px solid #2c3e50;
+        padding-bottom: 10px;
+    }
+
+    .tabs {
+        margin-bottom: 28px;
+    }
+
+        .tabs .btn {
+            padding: 8px 28px;
+            font-size: 16px;
+            margin-right: 8px;
+            border-radius: 8px;
+        }
+
+    .main-card {
+        background: #fff;
+        border-radius: 18px;
+        padding: 34px 38px;
+        margin: 0 auto 40px auto;
+        max-width: 1200px;
+        box-shadow: 0 6px 30px rgba(44, 62, 80, 0.08);
+        height: auto;
+        transition: box-shadow 0.2s;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .Leaverequest-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .Leaverequest-table th {
+            background: #f1f3f5;
+            font-weight: 700;
+            font-size: 16px;
+            color: #495057;
+            padding: 15px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .Leaverequest-table td {
+            font-size: 15px;
+            color: #343a40;
+            background: #fff;
+            padding: 14px;
+            vertical-align: middle;
+        }
+
+        .Leaverequest-table tr {
+            transition: background 0.2s;
+        }
+
+            .Leaverequest-table tr:hover td {
+                background-color: #f8f9fa;
+            }
+
+    .badge {
+        font-size: 14px;
+        padding: 7px 18px;
+        border-radius: 9px;
+        box-shadow: 0 2px 6px rgba(44, 62, 80, 0.10);
+    }
+
+    .empty-state {
+        text-align: center;
+        color: #848484;
+        margin-top: 40px;
+        font-size: 22px;
+    }
+
+    .heading-container h3 {
+        font-size: 28px;
+    }
+
+    .Leaverequest-table th, .Leaverequest-table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .tabs .btn {
+        font-size: 13px;
+        padding: 7px 13px;
+    }
+</style>

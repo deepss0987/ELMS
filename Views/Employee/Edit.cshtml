@@ -1,0 +1,192 @@
+﻿@using ELMS.Data.Entities   
+@model EmployeeCreateViewModel
+
+<html>
+    <body>
+
+    <nav class="navbar">
+        <div class="navbar-nav">
+            <a class="navbar-brand" href="#">ELMS</a>
+        </div>
+        <div class="d-flex ms-auto">
+            @if (User?.Identity?.IsAuthenticated == true)
+            {
+                <div class="dropdown ms-auto">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        @User.Identity.Name
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-md-end" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="\Account\MyProfile">My Profile</a></li>
+                        <li><a class="dropdown-item" href="\Account\Logout">Logout</a></li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </nav>
+        <div class="main-card">
+           <div class="form-row">
+              <div class="form-group col-12">
+                <form asp-action="Edit" method="post" class="row g-3 edit-form">
+            @if (ViewBag.SuccessMessage != null)
+            {
+                <p class="alert-success">@ViewBag.SuccessMessage</p>
+            }
+                    <div class="form-group col-md-6">
+                <label asp-for="Name" class="form-label"></label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            </div>
+                    <div class="form-group col-md-6">
+                <label asp-for="Password" class="form-label"></label>
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
+            </div>
+                    <div class="form-group col-12">
+                <label asp-for="Email" class="form-label"></label>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                <span asp-validation-for="Email" class="validation-message" style="color : red"></span>
+            </div>
+                    <div class="form-group col-md-6">
+                <label asp-for="Role" class="form-label"></label>
+                @Html.DropDownListFor(m => m.RoleId, Model.Roles, "Choose Role", new { @class = "form-control" })
+            </div>
+                    <div class="form-group col-md-6">
+                <label asp-for="Manager" class="form-label"></label>
+                @Html.DropDownListFor(m => m.ManagerId, Model.Managers, "Choose Manager", new { @class = "form-control" })
+            </div>
+                    <div  class="form-groupcol-md-6">
+                <label asp-for="IsActive" class="form-label"></label>
+                @Html.TextBoxFor(m => m.IsActive, new { @class = "form-control" })
+            </div>
+
+                    <div class="form-group col-12 text-center">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+        </div>
+        </div>
+</div>
+</body>
+</html>
+<style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background-color: #eef2f7;
+        padding-top:60px;
+    }
+
+    .main-card {
+        background: #fff;
+        border-radius: 20px;
+        margin: 20px auto;
+        max-width: 1000px;
+        padding: 7px 10px 10px 10px;
+        box-shadow: 0 12px 32px 0 rgba(60, 72, 101, .12);
+        position: relative;
+    }
+
+    .header {
+        margin-top: 36px;
+        margin-bottom: 12px;
+    }
+
+    .heading-container h3 {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        font-size: 30px;
+        font-weight: bold;
+        color: #2c3e50;
+        letter-spacing: 1.2px;
+        text-align: left;
+        margin: 20px 40px;
+        border-bottom: 1px solid #2c3e50;
+        padding-bottom: 10px;
+        margin-top: 68px;
+    }
+
+    .edit-form .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2px 0;
+        margin-top: 20px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #374151;
+        margin-bottom: 3px;
+    }
+
+    .form-control {
+        border-radius: 7px;
+        border: 1px solid #ced4da;
+        padding: 5px 5px;
+        font-size: 15px;
+        background: #f8fafc;
+        transition: border-color 0.2s;
+    }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 0.15rem rgba(37,99,235,.15);
+            background: #fff;
+        }
+
+    .btn-primary {
+        background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 7px 7px;
+        font-size: 17px;
+        color: #fff;
+        margin-top: 12px;
+        box-shadow: 0 2px 10px 0 rgba(37,99,235,.08);
+        transition: background 0.2s;
+    }
+
+        .btn-primary:hover, .btn-primary:focus {
+            background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+            color: #fff;
+        }
+
+    .form-group {
+        margin-bottom: 18px;
+        padding: 7px;
+    }
+
+    .required {
+        color: #dc2626;
+        font-size: 15px;
+        margin-left: 3px;
+    }
+
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        background: #020024;
+        background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        padding: 7px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-link a {
+        accent-color: #3976f6;
+        color: floralwhite;
+        text-decoration: none;
+        align-content: center;
+    }
+
+        .nav-link a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+    .navbar-brand {
+        color: floralwhite;
+        text-decoration: none;
+    }
+
+</style>
+

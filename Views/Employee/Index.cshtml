@@ -1,0 +1,270 @@
+﻿@using ELMS.Data.Entities
+@model List<EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "Company Employees";
+}
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-nav">
+            <a class="navbar-brand" href="#">ELMS</a>
+        </div>
+        <div class="d-flex ms-auto">
+            @if (User?.Identity?.IsAuthenticated == true)
+            {
+                <div class="dropdown ms-auto">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        @User.Identity.Name
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-md-end" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="\Account\MyProfile">My Profile</a></li>
+                        <li><a class="dropdown-item" href="\Account\Logout">Logout</a></li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </nav>
+
+    <div class="heading-container">
+        <h3 class="heading-title">Manage Employee</h3>
+        <a asp-action="Create" class="btn btn-primary heading-btn">Add New Employee</a>
+    </div>
+
+       
+        <div class="main-card">
+        <div class="table-scroll">
+            <table class="employee-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Manager</th>
+                        <th>Is Active</th>
+                        <th colspan="2" style="text-align:center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Email</td>
+                            <td>@item.RoleName</td>
+                            <td>@item.ManagerName</td>
+                            <td>@item.IsActive</td>
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                            <td>
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" data-employee-id="@item.Id" data-employee-name="@item.Name">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+<div class="modal fade" id="deleteModal" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Delete" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete <span id="employeeName"></span>?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        var deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event)
+        {
+            var button = event.relatedTarget;
+
+            var employeeId = button.getAttribute('data-employee-id');
+            var employeeName = button.getAttribute('data-employee-name');
+            var modalEmployeeName = deleteModal.querySelector('#employeeName');
+
+            var form = deleteModal.querySelector('#deleteForm');
+
+            modalEmployeeName.textContent = employeeName;
+            form.action = '/Employee/Delete/' + employeeId;
+        });
+    </script>
+}
+<style>
+    body {
+        background: #f8f9fa;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .navbar {
+        background: #020024;
+        background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(0, 212, 255, 1) 100%);
+        padding: 7px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-brand {
+        color: floralwhite;
+        text-decoration: none;
+    }
+
+    .navbar .btn {
+        font-size: 15px;
+        border-radius: 8px;
+        margin-left: 1rem;
+    }
+
+    .header {
+        margin-top: 26px;
+        margin-bottom: 10px;
+    }
+
+    .heading-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #2c3e50;
+        padding: 10px 20px;
+        margin: 38px 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .heading-title {
+        font-size: 40px;
+        font-weight: bold;
+        color: #2c3e50;
+        letter-spacing: 1.2px;
+        margin: 0;
+    }
+
+    .heading-btn {
+        font-size: 16px;
+    }
+
+
+    .tabs {
+        margin-bottom: 28px;
+    }
+
+    .tabs .btn {
+        padding: 8px 28px;
+        font-size: 16px;
+        margin-right: 8px;
+        border-radius: 8px;
+    }
+
+    .main-card {
+        background: #fff;
+        border-radius: 18px;
+        padding: 34px 38px;
+        margin: 0 auto 40px auto;
+        max-width: 1200px;
+        box-shadow: 0 6px 30px rgba(44, 62, 80, 0.08);
+        height: auto;
+        transition: box-shadow 0.2s;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .employee-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .employee-table th {
+        background: #f1f3f5;
+        font-weight: 700;
+        font-size: 16px;
+        color: #495057;
+        padding: 15px;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .employee-table td {
+        font-size: 15px;
+        color: #343a40;
+        background: #fff;
+        padding: 14px;
+        vertical-align: middle;
+    }
+
+    .employee-table tr {
+        transition: background 0.2s;
+    }
+
+    .employee-table tr:hover td {
+        background-color: #f8f9fa;
+    }
+
+    .btn-primary, .btn-danger {
+        font-size: 15px;
+        padding: 7px 18px;
+        border-radius: 9px;
+        box-shadow: 0 2px 6px rgba(44, 62, 80, 0.10);
+    }
+
+    .empty-state {
+        text-align: center;
+        color: #848484;
+        margin-top: 40px;
+        font-size: 22px;
+    }
+
+    .heading-container h3 {
+        font-size: 28px;
+    }
+
+    .employee-table th, .employee-table td {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .tabs .btn {
+        font-size: 13px;
+        padding: 7px 13px;
+    }
+
+    .dropdown-menu {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-item {
+        color: #333;
+        padding: 10px 45px;
+        text-decoration: none;
+        align-content: center;
+    }
+
+    .dropdown-item:hover {
+        background-color: whitesmoke;
+    }
+</style>
